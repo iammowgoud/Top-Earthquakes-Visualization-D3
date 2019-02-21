@@ -71,7 +71,7 @@ function parseData(drawFn) {
 function configureScales() {
   yPositionScale = d3.scaleLinear()
     .domain([0, data.length])
-    .range([CONFIG.margin.top, height / 5 * 4]);
+    .range([CONFIG.margin.top, height / 6 * 5]);
 
 
   xMagScale = d3.scaleLinear()

@@ -48,7 +48,7 @@ function addEarthquakes() {
   // Add circles
   earthquakes
     .append("circle")
-    .attr("cy", height / 4 * 3)
+    .attr("cy", height / 5 * 4)
     .attr("cx", width / 2)
     .attr("r", 0)
     .attr("fill", CONFIG.colors["green"])
@@ -62,7 +62,7 @@ function addEarthquakes() {
   // Add Country
   earthquakes
     .append("text")
-    .attr("y", (height / 4 * 3) + 5)
+    .attr("y", (height / 5 * 4) + 15)
     .attr("x", width / 2)
     .style("text-anchor", "middle")
     .text((d) => d.country);

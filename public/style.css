@@ -67,4 +67,5 @@ button {
   font-size: 25px;
   cursor: pointer;
   outline: none;
+  color: var(--teal);
 }

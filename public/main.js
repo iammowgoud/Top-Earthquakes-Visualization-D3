@@ -34,7 +34,7 @@ let nextElem = 0;
 window.onload = () => {
   // Main Viz
   d3.select("#main")
-    .style("max-width", `${CONFIG.width}px`)
+    .style("max-width", `${CONFIG.mainSVGwidth}px`)
     .style("margin", "0 auto")
     .append("svg")
     .attr("id", "mainSVG")

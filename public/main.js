@@ -50,6 +50,9 @@ window.onload = () => {
     if (event.keyCode == '40') {
       next();
     }
+    if (event.keyCode == '38') {
+      prev();
+    }
   };
 };
 
@@ -69,11 +72,11 @@ function configureScales() {
   yPositionScale = d3.scaleLinear()
     .domain([0, data.length])
     .range([CONFIG.margin.top, height / 5 * 4]);
-  
-  
+
+
   xMagScale = d3.scaleLinear()
     .domain([0, d3.max(getProperty("magnitude"))])
-    .range([0, width/2]);
+    .range([0, width / 2]);
 }
 
 
@@ -83,7 +86,16 @@ function next() {
   nextElem++;
   setTimeout(() => {
     showEarthquake(nextElem);
-  }, CONFIG.delays.stackDelay/2);
+  }, CONFIG.delays.stackDelay / 2);
+
+}
+
+function prev() {
+  hideEarthquake(nextElem);
+  nextElem--;
+  setTimeout(() => {
+    unstackEarthquake(nextElem);
+  }, CONFIG.delays.stackDelay / 2);
 
 }
 

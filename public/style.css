@@ -57,3 +57,14 @@ a {
     opacity: 1;
   }
 }
+
+button {
+  font-weight: bold;
+  font-family: 'Oswald',
+  sans-serif;
+  background: none;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+  outline: none;
+}

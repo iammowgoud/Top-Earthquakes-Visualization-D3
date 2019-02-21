@@ -135,20 +135,28 @@ function showEarthquake(i) {
       .attr("x", (d) => (width / 2) + 200)
       .duration(CONFIG.delays.stackDelay)
       .ease();
-    
-     d3.select("#e" + data[i].eventid + " line.deaths")
-       .transition()
-       .attr("x2", (d) => (width / 2) - xMagScale(d.magnitude))
-       .duration(CONFIG.delays.stackDelay)
-       .ease();
 
-     d3.select("#e" + data[i].eventid + " text.deaths")
-       .transition()
-       .attr("x", (d) => (width / 2) - 200)
-       .duration(CONFIG.delays.stackDelay)
-       .ease();
+    d3.select("#e" + data[i].eventid + " line.deaths")
+      .transition()
+      .attr("x2", (d) => (width / 2) - xMagScale(d.magnitude))
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
+
+    d3.select("#e" + data[i].eventid + " text.deaths")
+      .transition()
+      .attr("x", (d) => (width / 2) - 200)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
   }
 
+}
+
+function hideEarthquake(i) {
+  if (data[i]) {
+    console.log("==> hideEarthquake()", i);
+    d3.select("#e" + data[i].eventid)
+      .classed("hide", true);
+  }
 }
 
 function stackEarthquake(i) {
@@ -187,6 +195,49 @@ function stackEarthquake(i) {
       .transition()
       .attr("y1", yPositionScale(i) + 15)
       .attr("y2", yPositionScale(i) + 15)
+      .style("font-size", 10)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
+  }
+}
+
+
+function unstackEarthquake(i) {
+  if (data[i]) {
+    console.log("==> unstackEarthquake()", i);
+    d3.select("#e" + data[i].eventid + " circle")
+      .transition()
+      .attr("cy", height / 4 * 3)
+      .attr("r", CONFIG.circleRadius)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
+
+    d3.selectAll("#e" + data[i].eventid + " text:not(.date)")
+      .transition()
+      .attr("y", (height / 4 * 3) + 5)
+      .style("font-size", 10)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
+
+    d3.selectAll("#e" + data[i].eventid + " .date")
+      .transition()
+      .attr("y", (height / 4 * 3) + 25)
+      .style("font-size", 10)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
+
+    d3.selectAll("#e" + data[i].eventid + " line.mag")
+      .transition()
+      .attr("y1", (height / 4 * 3) + 15)
+      .attr("y2", (height / 4 * 3) + 15)
+      .style("font-size", 10)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
+
+    d3.selectAll("#e" + data[i].eventid + " line.deaths")
+      .transition()
+      .attr("y1", (height / 4 * 3) + 15)
+      .attr("y2", (height / 4 * 3) + 15)
       .style("font-size", 10)
       .duration(CONFIG.delays.stackDelay)
       .ease();

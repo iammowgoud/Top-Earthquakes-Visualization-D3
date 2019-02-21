@@ -1,0 +1,59 @@
+:root {
+  --main: #F0E5D6;
+  --pinkish: #F28C81;
+  --green: #8AC6BF;
+  --teal: #7C96A8;
+  --dark-blue: #01395C;
+}
+
+/* Body */
+body {
+  background-color: var(--main);
+  font-family: 'Oswald',
+    sans-serif;
+}
+
+*[hidden^=true] {
+  visibility: hidden;
+  display: none;
+  position: absolute;
+}
+
+*[hidden^=false] {
+  visibility: visible;
+  display: block;
+  position: relative;
+}
+
+.hide {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+#mobile-warning {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  text-align: center;
+  margin-top: 35vh;
+}
+
+@media only screen and (max-width: 900px) {
+
+
+  #main {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  #mobile-warning {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+  }
+}

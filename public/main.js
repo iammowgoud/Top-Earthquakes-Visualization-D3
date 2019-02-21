@@ -28,6 +28,8 @@ let mainSVG, earthquakes = null;
 
 let yPositionScale, xMagScale = null;
 
+let projection = null;
+
 let nextElem = 0;
 
 
@@ -69,6 +71,10 @@ function parseData(drawFn) {
 }
 
 function configureScales() {
+  projection = d3.geoEquirectangular();
+
+  addDefs();
+
   yPositionScale = d3.scaleLinear()
     .domain([0, data.length])
     .range([CONFIG.margin.top, height / 6 * 5]);
@@ -79,8 +85,6 @@ function configureScales() {
     .range([0, width / 2]);
 }
 
-
-
 function next() {
   stackEarthquake(nextElem);
   nextElem++;
@@ -88,6 +92,9 @@ function next() {
     showEarthquake(nextElem);
   }, CONFIG.delays.stackDelay / 2);
 
+  if (!data[nextElem]) {
+    foldTimeline()
+  }
 }
 
 function prev() {
@@ -105,4 +112,19 @@ function getProperty(property) {
 
 function reset() {
   location.reload();
+}
+
+
+function addDefs() {
+
+  
+  mainSVG.
+    append("svg:image")
+      .attr('id', "map")
+      .attr('x', -20)
+      .attr('y', 0)
+      .attr('width', "100%")
+      .attr('height', "100%")
+    .attr("xlink:href", "imgs/world.png")
+  .style("opacity", 0)
 }

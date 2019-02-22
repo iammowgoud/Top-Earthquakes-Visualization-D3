@@ -133,9 +133,9 @@ function getProperty(property) {
 }
 
 function loadCarto() {
-   d3.select("#f1")
-     .attr("src", "https://furqs92.carto.com/builder/4732480d-8661-4af6-ae58-341431ddf2ba/embed");
-  
-   d3.select("#f2")
-     .attr("src", "https://furqs92.carto.com/builder/fd7e168f-640e-45be-9438-13145f3d02a4/embed");
+  d3.select("#f1")
+    .attr("src", "https://furqs92.carto.com/builder/4732480d-8661-4af6-ae58-341431ddf2ba/embed");
+
+  d3.select("#f2")
+    .attr("src", "https://furqs92.carto.com/builder/fd7e168f-640e-45be-9438-13145f3d02a4/embed");
 }

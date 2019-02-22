@@ -151,11 +151,11 @@ p {
 }
 
 .emoji.center {
-    display: block;
-    position: absolute;
-    top: -15px;
-    left: calc(50% - -60px);
-    font-size: 60px;
+  display: block;
+  position: absolute;
+  top: -15px;
+  left: calc(50% - -60px);
+  font-size: 60px;
 }
 
 .emoji.center span {

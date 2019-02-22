@@ -45,10 +45,10 @@ function addEarthquakes() {
     .classed("hide", true)
     .on("click", (d) => {
       if (showTooltip) {
-        
+
         d3.select(".emoji.center.pulse")
           .classed("hide", true);
-        
+
         let hidden = d3.select("#tooltip")
           .classed("hidden");
         if (hidden) {
@@ -68,7 +68,7 @@ function addEarthquakes() {
         }
       }
     });
-  
+
   // Add circles
   earthquakes
     .append("circle")
@@ -216,7 +216,7 @@ function showEarthquake(i) {
 
     setTimeout(() => {
       next()
-    }, CONFIG.delays.stackDelay*2.2);
+    }, CONFIG.delays.stackDelay * 2.2);
   }
 
 }
@@ -450,6 +450,6 @@ function sortData(prop, silent) {
 
   d3.selectAll(".control-group button")
     .classed("active", false);
-  d3.selectAll(".control-group button."+prop)
+  d3.selectAll(".control-group button." + prop)
     .classed("active", true);
 }

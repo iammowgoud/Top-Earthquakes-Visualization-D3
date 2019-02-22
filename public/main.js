@@ -1,12 +1,12 @@
 const CONFIG = {
   circleRadius: 35,
-  mainSVGwidth: 900,
-  mainSVGheight: 700,
+  mainSVGwidth: 950,
+  mainSVGheight: 650,
   margin: {
-    top: 20,
-    right: 20,
-    bottom: 20,
-    left: 20
+    top: 30,
+    right: 40,
+    bottom: 30,
+    left: 40
   },
 
   colors: {
@@ -32,6 +32,8 @@ let yPositionScale, xMagScale, xDeathsScale = null;
 let projection = null;
 
 let nextElem = 0;
+
+let showTooltip = false;
 
 
 window.onload = () => {
@@ -67,7 +69,7 @@ function parseData(drawFn) {
     data.forEach((d) => {
       d.jsDate = new Date(d.datetime)
     });
-      sortData("jsDate", true)
+    sortData("jsDate", true)
     // sortData("jdDate", true);
     console.log("==> imported", data);
 
@@ -89,21 +91,29 @@ function configureScales() {
     .domain([0, d3.max(getProperty("magnitude"))])
     .range([0, width / 2])
     .exponent(3);
-  
+
   xDeathsScale = d3.scaleLinear()
     .domain([0, d3.max(
       [...getProperty("deaths"), ...getProperty("injured")]
     )])
-    .range([75, width / 2]);
+    .range([125, width / 2]);
 
 }
 
+let animLock = false;
+
 function next() {
-  stackEarthquake(nextElem);
-  nextElem++;
-  setTimeout(() => {
-    showEarthquake(nextElem);
-  }, CONFIG.delays.stackDelay / 2);
+  if (!animLock) {
+    animLock = true;
+    stackEarthquake(nextElem);
+    nextElem++;
+    setTimeout(() => {
+      showEarthquake(nextElem);
+    }, CONFIG.delays.stackDelay / 2);
+    setInterval(() => {
+      animLock = false;
+    }, CONFIG.delays.stackDelay / 2 * 3);
+  }
 }
 
 function prev() {

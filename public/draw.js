@@ -43,7 +43,17 @@ function addEarthquakes() {
     .append("g")
     .attr("id", (d) => "e" + d.eventid)
     .classed("hide", true)
-
+    .on("mouseenter", (d) => {
+      if (showTooltip) {
+        d3.select("#tooltip")
+          .classed("hide", false)
+          .text(d.country + " NEWS")
+      }
+    })
+    .on("mouseleave", (d) => {
+      d3.select("#tooltip")
+        .classed("hide", true)
+    });
 
   // Add circles
   earthquakes
@@ -65,6 +75,7 @@ function addEarthquakes() {
     .classed("label", true)
     .attr("y", (height / 5 * 4) + 15)
     .attr("x", width / 2)
+    .attr("font-size", 13)
     .style("text-anchor", "middle")
     .text((d) => d.country);
 
@@ -81,8 +92,10 @@ function addEarthquakes() {
   earthquakes
     .append("text")
     .classed("mag", true)
-    .attr("y", (height / 4 * 3) + 5)
+    .classed("legend", true)
+    .attr("y", (height / 4 * 3) + 37)
     .attr("x", (width / 2) + 40)
+    .attr("fill", CONFIG.colors["pinkish"])
     .style("text-anchor", "left")
     .text((d) => d.magnitude + " M");
 
@@ -90,20 +103,22 @@ function addEarthquakes() {
   earthquakes
     .append("line")
     .classed("mag", true)
-    .attr("y1", (height / 4 * 3) + 15)
+    .attr("y1", (height / 4 * 3) + 30)
     .attr("x1", (width / 2) + 40)
-    .attr("y2", (height / 4 * 3) + 15)
+    .attr("y2", (height / 4 * 3) + 30)
     .attr("x2", (width / 2) + 40)
     .attr("stroke", CONFIG.colors["pinkish"])
-    .attr("stroke-width", 4)
+    .attr("stroke-width", 10)
 
   // Add Deaths
   earthquakes
     .append("text")
     .classed("deaths", true)
-    .attr("y", (height / 4 * 3) + 5)
+    .classed("legend", true)
+    .attr("y", (height / 4 * 3) + 20)
     .attr("x", (width / 2) - 80)
     .style("text-anchor", "left")
+    .attr("font-size", 14)
     .attr("fill", CONFIG.colors["pinkish"])
     .text((d) => d.deaths + " deaths");
 
@@ -111,20 +126,22 @@ function addEarthquakes() {
   earthquakes
     .append("line")
     .classed("deaths", true)
-    .attr("y1", (height / 4 * 3) + 15)
+    .attr("y1", (height / 4 * 3) + 25)
     .attr("x1", (width / 2) - 40)
-    .attr("y2", (height / 4 * 3) + 15)
+    .attr("y2", (height / 4 * 3) + 25)
     .attr("x2", (width / 2) - 40)
     .attr("stroke", CONFIG.colors["pinkish"])
-    .attr("stroke-width", 4)
+    .attr("stroke-width", 5)
 
   // Add Injured
   earthquakes
     .append("text")
     .classed("injured", true)
-    .attr("y", (height / 4 * 3) + 5)
+    .classed("legend", true)
+    .attr("y", (height / 4 * 3) + 55)
     .attr("x", (width / 2) - 80)
     .style("text-anchor", "left")
+    .attr("font-size", 14)
     .attr("fill", CONFIG.colors["teal"])
     .text((d) => d.injured + " injured");
 
@@ -132,12 +149,12 @@ function addEarthquakes() {
   earthquakes
     .append("line")
     .classed("injured", true)
-    .attr("y1", (height / 4 * 3) + 25)
+    .attr("y1", (height / 4 * 3) + 35)
     .attr("x1", (width / 2) - 40)
-    .attr("y2", (height / 4 * 3) + 25)
+    .attr("y2", (height / 4 * 3) + 35)
     .attr("x2", (width / 2) - 40)
     .attr("stroke", CONFIG.colors["teal"])
-    .attr("stroke-width", 4)
+    .attr("stroke-width", 5)
 
 }
 
@@ -155,7 +172,7 @@ function showEarthquake(i) {
 
     d3.select("#e" + data[i].eventid + " text.mag")
       .transition()
-      .attr("x", (d) => (width / 2) + 200)
+      .attr("x", (d) => (width / 2) + xMagScale(d.magnitude) + 10)
       .duration(CONFIG.delays.stackDelay)
       .ease();
 
@@ -167,7 +184,7 @@ function showEarthquake(i) {
 
     d3.select("#e" + data[i].eventid + " text.deaths")
       .transition()
-      .attr("x", (d) => (width / 2) - 400)
+      .attr("x", (d) => (width / 2) - xDeathsScale(d.deaths))
       .duration(CONFIG.delays.stackDelay)
       .ease();
 
@@ -179,9 +196,13 @@ function showEarthquake(i) {
 
     d3.select("#e" + data[i].eventid + " text.injured")
       .transition()
-      .attr("x", (d) => (width / 2) - 200)
+      .attr("x", (d) => (width / 2) - xDeathsScale(d.injured))
       .duration(CONFIG.delays.stackDelay)
       .ease();
+
+    setTimeout(() => {
+      next()
+    }, CONFIG.delays.stackDelay*2.2);
   }
 
 }
@@ -199,20 +220,38 @@ function stackEarthquake(i) {
     console.log("==> stackEarthquake()", i);
     d3.select("#e" + data[i].eventid + " circle")
       .transition()
-      .attr("cy", yPositionScale(i))
-      .attr("r", 25)
+      .attr("cy", yPositionScale(i) + 15)
+      .attr("r", 30)
       .duration(CONFIG.delays.stackDelay)
       .ease();
 
-    d3.selectAll("#e" + data[i].eventid + " text:not(.date)")
+    d3.selectAll("#e" + data[i].eventid + " text.label")
       .transition()
-      .attr("y", yPositionScale(i) + 20)
+      .attr("y", yPositionScale(i) + 30)
       .duration(CONFIG.delays.stackDelay)
       .ease();
 
-    d3.selectAll("#e" + data[i].eventid + " .date")
+    d3.selectAll("#e" + data[i].eventid + " text.date")
       .transition()
-      .attr("y", yPositionScale(i) )
+      .attr("y", yPositionScale(i) + 12)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
+
+    d3.selectAll("#e" + data[i].eventid + " text.mag")
+      .transition()
+      .attr("y", yPositionScale(i) + 21)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
+
+    d3.selectAll("#e" + data[i].eventid + " text.deaths")
+      .transition()
+      .attr("y", yPositionScale(i) + 10)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
+
+    d3.selectAll("#e" + data[i].eventid + " text.injured")
+      .transition()
+      .attr("y", yPositionScale(i) + 45)
       .duration(CONFIG.delays.stackDelay)
       .ease();
 
@@ -243,8 +282,8 @@ function stackEarthquake(i) {
       spreadTimeline();
       d3.selectAll("button.hide")
         .classed("hide", false)
-       d3.selectAll("button.control")
-         .classed("hide", true)
+      d3.selectAll("button.control")
+        .classed("hide", true)
     }
   }
 
@@ -302,15 +341,15 @@ function unstackEarthquake(i) {
 
 function spreadTimeline() {
   console.log("==> spreadTimeline()");
-
+  showTooltip = true;
   yPositionScale = d3.scaleLinear()
     .domain([0, data.length - 1])
     .range([0, height - CONFIG.margin.bottom]);
 
   d3.selectAll("#earthquakes circle")
     .transition()
-    .attr("cy", (d, i) => yPositionScale(d.order))
-    .attr("r", 25)
+    .attr("cy", (d, i) => yPositionScale(d.order) + 10)
+    .attr("r", 30)
     .duration(CONFIG.delays.stackDelay)
     .ease();
 
@@ -322,7 +361,7 @@ function spreadTimeline() {
 
   d3.selectAll("#earthquakes text.mag")
     .transition()
-    .attr("y", (d, i) => yPositionScale(d.order) + 5)
+    .attr("y", (d, i) => yPositionScale(d.order) + 21)
     .duration(CONFIG.delays.stackDelay)
     .ease();
 
@@ -332,11 +371,11 @@ function spreadTimeline() {
     .duration(CONFIG.delays.stackDelay)
     .ease();
 
-    d3.selectAll("#earthquakes text.injured")
-      .transition()
-      .attr("y", (d, i) => yPositionScale(d.order) + 5)
-      .duration(CONFIG.delays.stackDelay)
-      .ease();
+  d3.selectAll("#earthquakes text.injured")
+    .transition()
+    .attr("y", (d, i) => yPositionScale(d.order) + 45)
+    .duration(CONFIG.delays.stackDelay)
+    .ease();
 
   d3.selectAll("#earthquakes .date")
     .transition()
@@ -361,20 +400,20 @@ function spreadTimeline() {
     .duration(CONFIG.delays.stackDelay)
     .ease();
 
-    d3.selectAll("#earthquakes line.injured")
-      .transition()
-      .attr("y1", (d, i) => yPositionScale(d.order) + 25)
-      .attr("y2", (d, i) => yPositionScale(d.order) + 25)
-      .style("font-size", 10)
-      .duration(CONFIG.delays.stackDelay)
-      .ease();
+  d3.selectAll("#earthquakes line.injured")
+    .transition()
+    .attr("y1", (d, i) => yPositionScale(d.order) + 25)
+    .attr("y2", (d, i) => yPositionScale(d.order) + 25)
+    .style("font-size", 10)
+    .duration(CONFIG.delays.stackDelay)
+    .ease();
 }
 
 
 function sortData(prop, silent) {
   data = data.sort((a, b) => a[prop] - b[prop]);
 
-  data.forEach((d,i) => {
+  data.forEach((d, i) => {
     d.order = i;
   });
   mainSVG

@@ -44,8 +44,8 @@ a {
 
 @media only screen and (max-width: 900px) {
 
-
-  #main {
+  #main,
+  button {
     display: none;
     visibility: hidden;
     opacity: 0;
@@ -61,11 +61,20 @@ a {
 button {
   font-weight: bold;
   font-family: 'Oswald',
-  sans-serif;
+    sans-serif;
   background: none;
   border: none;
   font-size: 25px;
   cursor: pointer;
   outline: none;
   color: var(--teal);
+}
+
+#tooltip {
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  width: 100;
+  height: 100;
+  background: white;
 }

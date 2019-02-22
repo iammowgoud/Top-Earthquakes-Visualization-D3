@@ -142,20 +142,4 @@
    "deaths": 166,
    "injured": 423,
    "missing": 5090
-}, {
-  "datetime": "9/19/1985",
-  "country": "Mexico",
-  "latitude": 18.19,
-  "longitude": -102.533,
-  "depth": 27.9,
-  "magnitude": 8.1,
-  "magtype": "Ms",
-  "nbstations": 311,
-  "rms": 1.25,
-  "source": "NEI",
-  "eventid": 1985091940,
-  "location": "POINT(-102.533000000000000 18.190000000000000)",
-     "deaths": 45000,
-     "injured": 9000,
-     "missing": 0
 }]

@@ -1,7 +1,7 @@
 const CONFIG = {
-  circleRadius: 30,
+  circleRadius: 35,
   mainSVGwidth: 900,
-  mainSVGheight: 600,
+  mainSVGheight: 700,
   margin: {
     top: 20,
     right: 20,
@@ -85,10 +85,11 @@ function configureScales() {
     .range([CONFIG.margin.top, height / 6 * 5]);
 
 
-  xMagScale = d3.scaleLinear()
+  xMagScale = d3.scalePow()
     .domain([0, d3.max(getProperty("magnitude"))])
-    .range([0, width / 2]);
-
+    .range([0, width / 2])
+    .exponent(3);
+  
   xDeathsScale = d3.scaleLinear()
     .domain([0, d3.max(
       [...getProperty("deaths"), ...getProperty("injured")]

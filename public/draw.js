@@ -75,7 +75,7 @@ function addEarthquakes() {
     .attr("y", (height / 4 * 3) + 25)
     .attr("x", (width / 2))
     .style("text-anchor", "middle")
-    .text((d) => d.datetime);
+    .text((d) => d.datetime.split("/")[2]);
 
   // Add Magnitude
   earthquakes
@@ -200,21 +200,19 @@ function stackEarthquake(i) {
     d3.select("#e" + data[i].eventid + " circle")
       .transition()
       .attr("cy", yPositionScale(i))
-      .attr("r", 20)
+      .attr("r", 25)
       .duration(CONFIG.delays.stackDelay)
       .ease();
 
     d3.selectAll("#e" + data[i].eventid + " text:not(.date)")
       .transition()
-      .attr("y", yPositionScale(i) + 5)
-      .style("font-size", 10)
+      .attr("y", yPositionScale(i) + 20)
       .duration(CONFIG.delays.stackDelay)
       .ease();
 
     d3.selectAll("#e" + data[i].eventid + " .date")
       .transition()
-      .attr("y", yPositionScale(i) + 25)
-      .style("font-size", 10)
+      .attr("y", yPositionScale(i) )
       .duration(CONFIG.delays.stackDelay)
       .ease();
 
@@ -244,7 +242,9 @@ function stackEarthquake(i) {
     if (i === data.length - 1) {
       spreadTimeline();
       d3.selectAll("button.hide")
-      .classed("hide", false)
+        .classed("hide", false)
+       d3.selectAll("button.control")
+         .classed("hide", true)
     }
   }
 
@@ -310,7 +310,7 @@ function spreadTimeline() {
   d3.selectAll("#earthquakes circle")
     .transition()
     .attr("cy", (d, i) => yPositionScale(d.order))
-    .attr("r", 20)
+    .attr("r", 25)
     .duration(CONFIG.delays.stackDelay)
     .ease();
 

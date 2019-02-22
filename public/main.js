@@ -49,6 +49,7 @@ window.onload = () => {
 
   mainSVG = d3.select("#mainSVG");
 
+  loadCarto();
 
   console.log("==> Initialized");
   parseData(drawLine);
@@ -131,6 +132,13 @@ function getProperty(property) {
   return data.map((dataPoint) => dataPoint[property]);
 }
 
-function reset() {
-  location.reload();
+function loadCarto() {
+  d3.select("#f1")
+    .attr("src", "https://furqs92.carto.com/builder/4ed9d144-03a8-4360-979e-7b65d5788c55/embed");
+  
+   d3.select("#f2")
+     .attr("src", "https://furqs92.carto.com/builder/4732480d-8661-4af6-ae58-341431ddf2ba/embed");
+  
+   d3.select("#f3")
+     .attr("src", "https://furqs92.carto.com/builder/fd7e168f-640e-45be-9438-13145f3d02a4/embed");
 }

@@ -12,7 +12,17 @@ body {
   background-color: var(--main);
   font-family: 'Oswald',
     sans-serif;
-    overflow: hidden;
+  overflow-x: hidden;
+}
+
+#main {
+  position: relative;
+}
+
+h1 {
+  font-size: 30px;
+  text-align: center;
+  color: var(--teal-dark)
 }
 
 *[hidden^=true] {
@@ -90,12 +100,13 @@ button.active {
   background: white;
   transition: all 0.7s;
   background: var(--main);
-  border-left: 2px solid var(--dark-blue);
-padding: 10px;
+  border-left: 2px solid var(--green);
+  border-bottom: 2px solid var(--green);
+  padding: 10px;
 }
 
 #tooltip.hidden {
-transition: all 0.7s;
+  transition: all 0.7s;
   right: -270px;
 }
 
@@ -112,13 +123,23 @@ transition: all 0.7s;
 .control-group {
   position: absolute;
   top: 0;
-  left:0;
-  width:80px;
+  left: 0;
+  width: 80px;
   text-align: left;
 }
+
 .control-group h2 {
   margin-left: 5px;
   margin-bottom: 0px;
   font-size: 20px;
   color: var(--dark-blue);
+}
+
+
+div.section p {
+  text-align: center;
+}
+
+div.section p img {
+  max-width: 100vw !important;
 }

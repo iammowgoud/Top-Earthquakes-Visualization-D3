@@ -1,0 +1,269 @@
+---
+title: "Earthquakes 1970 to 2014"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Data preparation
+
+```{r message=F, warning=FALSE}
+
+library(lubridate)
+library(xts)
+library(tidyr)
+library(dplyr) 
+library(dygraphs)
+library(ggplot2) 
+library(plotly)
+library(ggthemes)
+library(gridExtra)
+library(waffle)
+
+```
+
+## Data loading
+
+```{r echo=TRUE}
+
+df <- read.csv('./earthquakes1970_2014.csv', header = T, sep = ',')
+
+```
+
+## Data manupulation
+
+```{r echo=TRUE}
+
+df['year'] <- format(as.Date(df$datetime, format="%m/%d/%Y"),"%Y") ## Create 'year' variable to group data by year
+
+df <- filter(df, year != '2014') ## remove records in the year 2014 as only two records are found (incomplete data for that year)
+
+## Classify the earthquakes based on their magnitudes (standard classification):
+## 6 - 7: strong
+## 7 - 8: major
+## 8 - 9: great
+## over 9: catastrophic (this is not standard class, created just for data visualization purpose)
+
+df$m6 <- (df$magnitude >=6 & df$magnitude <7)
+df$m7 <- (df$magnitude >=7 & df$magnitude <8)
+df$m8 <- (df$magnitude >=8 & df$magnitude <9)
+df$m9 <- (df$magnitude >=9)
+df$mag[which(df$m6 == TRUE)] <- "strong"
+df$mag[which(df$m7 == TRUE)] <- "major"
+df$mag[which(df$m8 == TRUE)] <- "great"
+df$mag[which(df$m9 == TRUE)] <- "catastrophic"
+df$m6 <- NULL
+df$m7 <- NULL
+df$m8 <- NULL
+df$m9 <- NULL
+
+```
+
+## Group the data by year
+
+```{r echo=TRUE}
+
+df_by_year <- group_by(df, year) %>%
+              summarise(no_of_earthquakes = length(year),
+                        avg_mag = mean(magnitude),
+                        avg_depth = mean(depth)) %>%
+              mutate(date = ymd(year, truncated = 2L))
+
+```
+
+## Group the data by countries
+
+```{r echo=TRUE}
+
+df_by_country <- group_by(df, country) %>%
+                   summarise(no_of_earthquakes = length(country),
+                             avg_mag = mean(magnitude),
+                             avg_depth = mean(depth),
+                             max_mag = max(magnitude),
+                             min_mag = min(magnitude))
+
+```
+
+### Top 10 countries by number of incidences
+
+```{r echo=TRUE, message=FALSE}
+
+countries<- as.data.frame(table(df$country))
+countries_top10 <- countries[order(countries$Freq, decreasing=T),] %>%
+                      top_n(11)
+countries_top10 <- countries_top10[2:11, ]
+
+## Top 10: ungroupped data
+df_tp10 <- df[df$country %in% countries_top10$Var1,]
+df_tp10 <- df_tp10[order(df_tp10$magnitude),]
+
+## Top 10: groupped data
+df_by_country <- df_by_country[order(df_by_country$no_of_earthquakes, decreasing = T),]
+df_by_country_top10 <- df_by_country[2:11,]
+
+```
+
+# Data Visualization
+
+## Line plot: number of earthquakes by year
+
+```{r echo=FALSE}
+
+ggplot(df_by_year, aes(x = date, y = no_of_earthquakes, group=1)) + 
+  geom_line(size=0.7, color="#0063B1") +
+  geom_point(size=1.5, color="#00B7C3") +
+  scale_x_date(date_labels="%Y",
+               breaks = "3 years", 
+               limits = c(as.Date("1970-1-1"), 
+                          as.Date("2013-12-31"))) +
+  scale_y_continuous(breaks = seq(0, 250, by = 20)) +
+  labs(title="Number of earthquakes detected (1970 to 2013)") +
+  theme_classic() +
+  theme(plot.title=element_text(color="#4C4A48", face="bold"),
+        axis.text.x=element_text(color="#4C4A48"),
+        axis.text.y=element_text(color="#4C4A48"),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank())
+
+```
+
+The line chart suggests a general trend of increase in number of earthquakes detected. Notably, there was a significant increase in the number of earthquakes detected from 1991 to 1995. Is it true that we are experiencing a lot more seismicity than we used to? Not necessarily. The most reasonable interpretation of this line chart is that our ability to detect and measure earthquakes has improved over time with the technology advancement in the past few decades.
+
+## Scatter plot: relationship between depth and magnitude
+
+```{r echo=FALSE}
+
+ggplot(df, aes(x = depth, y=magnitude)) + 
+  geom_point(size=1.2, alpha=0.12, color="#0063B1") +
+  labs(title="Depth vs. Magnitude",
+       x="Depth", y="Magnitude") +
+  theme_classic() +
+  theme(plot.title=element_text(color="#4C4A48", face="bold"),
+        axis.text.x=element_text(color="#4C4A48"),
+        axis.text.y=element_text(color="#4C4A48"))  
+
+```
+
+The scatter plot suggests that there is no strong linear relationship between depth of the earthquake and its magnitude. The distribuiton is highly skewed to the left, indicating that the marjority of the earthquakes occured at a depth within 200km below the surface of the earth.
+
+## Density plot: overall distribution of magnitudes
+
+```{r echo=FALSE}
+
+ggplot(df, aes(x=magnitude)) + 
+  geom_density(fill = "#0099BC", alpha=0.6) +
+  labs(title="Density of Magnitude",
+       x="Magnitude", y="Density") +
+  theme_classic() +
+  theme(plot.title=element_text(color="#4C4A48", face="bold"),
+        axis.text.x=element_text(color="#4C4A48"),
+        axis.text.y=element_text(color="#4C4A48"))  
+
+```
+
+The density plot shows the distribution of magnitudes of all earthquakes in the dataset. As shown in the graph, most earthquakes have a magnitude between 6 and 7.
+
+## Density plot: distribution of magnitudes (top 10 countries by number of earthquakes detected)
+
+```{r echo=FALSE}
+
+ggplot(df_tp10, aes(x=magnitude, group=country)) +
+  geom_density(aes(fill=country), alpha=0.4) +
+  labs(title="Density of Magnitude (Top 10 Earthquake-prone Regions)",
+       x="Magnitude", y="Density") +
+  theme(plot.title=element_text(color="#4C4A48", face="bold"),
+        axis.text.x=element_text(color="#4C4A48"),
+        axis.text.y=element_text(color="#4C4A48")) +
+  theme_classic()
+
+```
+
+In this density plot, we selected the top 10 earthquake-prone countries and plotted the distribution of magnitudes of the earthquakes detected in each country. Consistent with the previous chart, most earthquakes have a magnitude between 6 and 7, while earthquakes with magnitudes above 7 have slightly higher frequncies in the United States and Vanuatu.
+
+## Bar chart: number of earthquakes (top 10 countries by number of earthquakes detected)
+
+```{r echo=FALSE}
+
+ggplot(df_by_country_top10) + 
+  geom_bar(aes(x=reorder(country, -no_of_earthquakes),
+               y=no_of_earthquakes,
+               fill=country, alpha=0.9), stat="identity", width = 0.7) +
+  labs(title="Number of earthquakes detected (Top 10 Countries)") +
+  theme_classic() +
+  theme(plot.title=element_text(color="#4C4A48", face="bold"),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),        
+        axis.text.x=element_text(angle=90, hjust=1, color="#4C4A48"),
+        axis.text.y=element_text(color="#4C4A48"),
+        legend.position ="none")
+
+```
+
+According to this bar chart, Indonesia is the most earthquake-prone country in the world with a total number of 595 earthquakes (strong and above) detected from 1970 to 2013, followed by Papua New Guinea (396) and Japan (340).
+
+## Box plot: magnitude (top 10 countries by number of earthquakes detected)
+
+```{r echo=FALSE}
+
+ggplot(df_tp10, aes(x=reorder(country, magnitude, FUN = mean), y=magnitude, fill=country, alpha=0.4)) +
+  geom_boxplot(outlier.color="#68768A", outlier.alpha = 0.2) +
+  labs(title="Boxplots (Top 10 Earthquake-prone Regions)", y="Magnitude") +
+  coord_cartesian(ylim = c(5.5, 9.5)) +
+  theme_classic() +
+  theme(plot.title=element_text(color="#4C4A48", face="bold"),
+        axis.title.x=element_blank(),
+        axis.text.x=element_text(angle=90, hjust=1, color="#4C4A48"),
+        axis.text.y=element_text(color="#4C4A48"),
+        legend.position ="none")
+
+```
+
+The boxplots confirmed the observation from the desity plot that the distribution of magnitudes is highly skewed to the left (between 6 and 7). In addition, the boxplots reveals some interesting information regarding the outliers. According to the chart, Indonesia and Japans suffered the most from major (magnitude > 7) and great earthquakes (magnitude >8), suggeted by a high number of outliers outside the boxplot. 
+
+## Waffle chart: number of earthquakes by magnitude classes
+
+```{r fig.width=14, fig.height=5, echo=FALSE}
+
+magcat <- as.data.frame(table(df$mag))
+class_mag <- c('Strong (4769)' = 4769, 'Major (502)' = 502, 'Great (29)' = 29, "Catastrophic (2)" = 2)
+
+waffle(class_mag/2, rows=30, size=0.5, 
+       colors=c("#00B7C3", "#0078D7", "#FF8C00", "#E81123"), 
+       title="Number of Earthquakes by Magnitude Classes", 
+       xlab="1 square = 2 incidences") +
+  theme(plot.title=element_text(size=14, color="#4C4A48", face="bold"),
+        axis.title.x=element_text(size=12, color="#4C4A48"))  
+```
+
+The above waflle chart represents a more intuitive illustration of how the different classes of earthquakes are distributed. Consitent with what we have discussed earlier, marjority of the earthquakes have a magnitude between 6 and 7 (class 'strong'). Earthquakes with magnitude above 8 have much fewer occurances, and two catastrophic earthquakes (magnitude above 9) occured in the past few decades.
+
+## Waffle chart: number of earthquakes by countries
+
+```{r fig.width=14, fig.height=5, echo=FALSE}
+
+waffle_countries <- c('Remote Areas (979)' = 979,
+                      'Indonesia (502)' = 595,
+                      'Papua New Guinea (396)' = 396,
+                      'Japan (340)' = 340,
+                      'USA (294)' = 294,
+                      'Vanuatu (260)' = 260,
+                      'Russia (259)' = 259,
+                      'Tonga (224)' = 224,
+                      'Solomon Island (191)' = 191,
+                      'Chile (173)' = 173,
+                      'New Zealand (171)' = 171,
+                      'Others (1420)' = (sum(countries$Freq) - sum(countries_top10$Freq) - 979))
+
+waffle(waffle_countries/2, rows=30, size=0.5, 
+       colors=c("#0099BC", "#0078D7", "#E74856", "#FFB900",
+                "#2D7D9A", "#744DA9", "#C30052", "#F7630C",
+                "#018574", "#744DA9", "#BF0077", "#EF6950"), 
+       title="Number of Earthquakes by countries", 
+       xlab="1 square = 2 incidences") +
+  theme(plot.title=element_text(size=14, color="#4C4A48", face="bold"),
+        axis.title.x=element_text(size=12, color="#4C4A48"))  
+```
+
+This waffle chart visualizes how many earthquakes occured in each country (top 10). In addition to the top 10 earthquake-prone countries, earthquakes occured in remote areas (mostly in the oceans) are represented in this chart as well. As indicated by this chart, a high number of earhquakes (979) had occured in remote areas. More interestly, earthquakes in countries other than the top 10 were fewer than the top 10 combined.

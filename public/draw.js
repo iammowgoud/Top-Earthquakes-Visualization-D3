@@ -44,8 +44,11 @@ function addEarthquakes() {
     .attr("id", (d) => "e" + d.eventid)
     .classed("hide", true)
     .on("click", (d) => {
-      if (true) {
-
+      if (showTooltip) {
+        
+        d3.select(".emoji.center.pulse")
+          .classed("hide", true);
+        
         let hidden = d3.select("#tooltip")
           .classed("hidden");
         if (hidden) {
@@ -195,7 +198,7 @@ function showEarthquake(i) {
 
     d3.select("#e" + data[i].eventid + " text.deaths")
       .transition()
-      .attr("x", (d) => (width / 2) - xDeathsScale(d.deaths))
+      .attr("x", (d) => d3.min([(width / 2) - xDeathsScale(d.deaths), 345]))
       .duration(CONFIG.delays.stackDelay)
       .ease();
 
@@ -207,7 +210,7 @@ function showEarthquake(i) {
 
     d3.select("#e" + data[i].eventid + " text.injured")
       .transition()
-      .attr("x", (d) => (width / 2) - xDeathsScale(d.injured))
+      .attr("x", (d) => d3.min([(width / 2) - xDeathsScale(d.injured), 345]))
       .duration(CONFIG.delays.stackDelay)
       .ease();
 
@@ -354,7 +357,14 @@ function unstackEarthquake(i) {
 
 function spreadTimeline() {
   console.log("==> spreadTimeline()");
+
   showTooltip = true;
+  if (helper) {
+    d3.select(".emoji.center.pulse")
+      .classed("hide", false);
+  }
+  helper = false;
+
   yPositionScale = d3.scaleLinear()
     .domain([0, data.length - 1])
     .range([0, height - CONFIG.margin.bottom]);

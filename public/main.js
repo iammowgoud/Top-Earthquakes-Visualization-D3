@@ -35,6 +35,7 @@ let projection = null;
 let nextElem = 0;
 
 let showTooltip = false;
+let helper = true;
 
 
 window.onload = () => {
@@ -95,12 +96,12 @@ function configureScales() {
     .range([0, width / 2])
     .exponent(3);
 
-  xDeathsScale = d3.scaleLinear()
+  xDeathsScale = d3.scalePow()
     .domain([0, d3.max(
       [...getProperty("deaths"), ...getProperty("injured")]
     )])
-    .range([125, width / 2]);
-
+    .range([60, width / 2])
+    .exponent(0.3);
 }
 
 let animLock = false;
@@ -125,7 +126,6 @@ function prev() {
   setTimeout(() => {
     unstackEarthquake(nextElem);
   }, CONFIG.delays.stackDelay / 2);
-
 }
 
 function getProperty(property) {
@@ -133,12 +133,9 @@ function getProperty(property) {
 }
 
 function loadCarto() {
-  d3.select("#f1")
-    .attr("src", "https://furqs92.carto.com/builder/4ed9d144-03a8-4360-979e-7b65d5788c55/embed");
-  
-   d3.select("#f2")
+   d3.select("#f1")
      .attr("src", "https://furqs92.carto.com/builder/4732480d-8661-4af6-ae58-341431ddf2ba/embed");
   
-   d3.select("#f3")
+   d3.select("#f2")
      .attr("src", "https://furqs92.carto.com/builder/fd7e168f-640e-45be-9438-13145f3d02a4/embed");
 }

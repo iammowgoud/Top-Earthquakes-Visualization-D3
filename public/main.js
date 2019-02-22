@@ -18,7 +18,8 @@ const CONFIG = {
   },
 
   delays: {
-    stackDelay: 1000
+    stackDelay: 600,
+    timelineDelay: 1200
   }
 };
 
@@ -26,7 +27,7 @@ let height = CONFIG.mainSVGheight - CONFIG.margin.top - CONFIG.margin.bottom;
 let width = CONFIG.mainSVGwidth - CONFIG.margin.left - CONFIG.margin.right;
 let mainSVG, earthquakes = null;
 
-let yPositionScale, xMagScale = null;
+let yPositionScale, xMagScale, xDeathsScale = null;
 
 let projection = null;
 
@@ -63,6 +64,11 @@ function parseData(drawFn) {
   console.log("==> parseData()");
   d3.json("earthquakes.json").then((d) => {
     data = d;
+    data.forEach((d) => {
+      d.jsDate = new Date(d.datetime)
+    });
+      sortData("jsDate", true)
+    // sortData("jdDate", true);
     console.log("==> imported", data);
 
     configureScales();
@@ -73,7 +79,6 @@ function parseData(drawFn) {
 function configureScales() {
   projection = d3.geoEquirectangular();
 
-  addDefs();
 
   yPositionScale = d3.scaleLinear()
     .domain([0, data.length])
@@ -83,6 +88,13 @@ function configureScales() {
   xMagScale = d3.scaleLinear()
     .domain([0, d3.max(getProperty("magnitude"))])
     .range([0, width / 2]);
+
+  xDeathsScale = d3.scaleLinear()
+    .domain([0, d3.max(
+      [...getProperty("deaths"), ...getProperty("injured")]
+    )])
+    .range([75, width / 2]);
+
 }
 
 function next() {
@@ -91,10 +103,6 @@ function next() {
   setTimeout(() => {
     showEarthquake(nextElem);
   }, CONFIG.delays.stackDelay / 2);
-
-  if (!data[nextElem]) {
-    foldTimeline()
-  }
 }
 
 function prev() {
@@ -112,19 +120,4 @@ function getProperty(property) {
 
 function reset() {
   location.reload();
-}
-
-
-function addDefs() {
-
-  
-  mainSVG.
-    append("svg:image")
-      .attr('id', "map")
-      .attr('x', -20)
-      .attr('y', 0)
-      .attr('width', "100%")
-      .attr('height', "100%")
-    .attr("xlink:href", "imgs/world.png")
-  .style("opacity", 0)
 }

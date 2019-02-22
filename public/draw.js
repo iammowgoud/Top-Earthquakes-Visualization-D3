@@ -18,14 +18,13 @@ function drawLine() {
 
     .transition()
     .attr("y2", height)
-    .duration(2000)
+    .duration(CONFIG.delays.timelineDelay)
     .ease(d3.easeBackOut)
     .on("end", () => {
       addEarthquakes();
       showEarthquake(0);
     });
 }
-
 
 function addEarthquakes() {
   console.log("==> addDataPoints()");
@@ -85,7 +84,7 @@ function addEarthquakes() {
     .attr("y", (height / 4 * 3) + 5)
     .attr("x", (width / 2) + 40)
     .style("text-anchor", "left")
-    .text((d) => d.magnitude + " unit?!!");
+    .text((d) => d.magnitude + " M");
 
   // Add Magnitude line
   earthquakes
@@ -105,7 +104,8 @@ function addEarthquakes() {
     .attr("y", (height / 4 * 3) + 5)
     .attr("x", (width / 2) - 80)
     .style("text-anchor", "left")
-    .text((d) => d.magnitude + " ppl died :(");
+    .attr("fill", CONFIG.colors["pinkish"])
+    .text((d) => d.deaths + " deaths");
 
   // Add Deaths line
   earthquakes
@@ -116,6 +116,27 @@ function addEarthquakes() {
     .attr("y2", (height / 4 * 3) + 15)
     .attr("x2", (width / 2) - 40)
     .attr("stroke", CONFIG.colors["pinkish"])
+    .attr("stroke-width", 4)
+
+  // Add Injured
+  earthquakes
+    .append("text")
+    .classed("injured", true)
+    .attr("y", (height / 4 * 3) + 5)
+    .attr("x", (width / 2) - 80)
+    .style("text-anchor", "left")
+    .attr("fill", CONFIG.colors["teal"])
+    .text((d) => d.injured + " injured");
+
+  // Add Injured line
+  earthquakes
+    .append("line")
+    .classed("injured", true)
+    .attr("y1", (height / 4 * 3) + 25)
+    .attr("x1", (width / 2) - 40)
+    .attr("y2", (height / 4 * 3) + 25)
+    .attr("x2", (width / 2) - 40)
+    .attr("stroke", CONFIG.colors["teal"])
     .attr("stroke-width", 4)
 
 }
@@ -140,11 +161,23 @@ function showEarthquake(i) {
 
     d3.select("#e" + data[i].eventid + " line.deaths")
       .transition()
-      .attr("x2", (d) => (width / 2) - xMagScale(d.magnitude))
+      .attr("x2", (d) => (width / 2) - xDeathsScale(d.deaths))
       .duration(CONFIG.delays.stackDelay)
       .ease();
 
     d3.select("#e" + data[i].eventid + " text.deaths")
+      .transition()
+      .attr("x", (d) => (width / 2) - 400)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
+
+    d3.select("#e" + data[i].eventid + " line.injured")
+      .transition()
+      .attr("x2", (d) => (width / 2) - xDeathsScale(d.injured))
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
+
+    d3.select("#e" + data[i].eventid + " text.injured")
       .transition()
       .attr("x", (d) => (width / 2) - 200)
       .duration(CONFIG.delays.stackDelay)
@@ -200,13 +233,22 @@ function stackEarthquake(i) {
       .style("font-size", 10)
       .duration(CONFIG.delays.stackDelay)
       .ease();
+
+    d3.selectAll("#e" + data[i].eventid + " line.injured")
+      .transition()
+      .attr("y1", yPositionScale(i) + 25)
+      .attr("y2", yPositionScale(i) + 25)
+      .style("font-size", 10)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
     if (i === data.length - 1) {
       spreadTimeline();
+      d3.selectAll("button.hide")
+      .classed("hide", false)
     }
   }
 
 }
-
 
 function unstackEarthquake(i) {
   if (data[i]) {
@@ -247,6 +289,14 @@ function unstackEarthquake(i) {
       .style("font-size", 10)
       .duration(CONFIG.delays.stackDelay)
       .ease();
+
+    d3.selectAll("#e" + data[i].eventid + " line.injured")
+      .transition()
+      .attr("y1", (height / 4 * 3) + 25)
+      .attr("y2", (height / 4 * 3) + 25)
+      .style("font-size", 10)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
   }
 }
 
@@ -259,141 +309,79 @@ function spreadTimeline() {
 
   d3.selectAll("#earthquakes circle")
     .transition()
-    .attr("cy", (d, i) => yPositionScale(i))
+    .attr("cy", (d, i) => yPositionScale(d.order))
     .attr("r", 20)
     .duration(CONFIG.delays.stackDelay)
     .ease();
 
   d3.selectAll("#earthquakes .label")
     .transition()
-    .attr("y", (d, i) => yPositionScale(i) + 5)
+    .attr("y", (d, i) => yPositionScale(d.order) + 5)
     .duration(CONFIG.delays.stackDelay)
     .ease();
 
   d3.selectAll("#earthquakes text.mag")
     .transition()
-    .attr("y", (d, i) => yPositionScale(i) + 5)
+    .attr("y", (d, i) => yPositionScale(d.order) + 5)
     .duration(CONFIG.delays.stackDelay)
     .ease();
 
   d3.selectAll("#earthquakes text.deaths")
     .transition()
-    .attr("y", (d, i) => yPositionScale(i) + 5)
+    .attr("y", (d, i) => yPositionScale(d.order) + 5)
     .duration(CONFIG.delays.stackDelay)
     .ease();
+
+    d3.selectAll("#earthquakes text.injured")
+      .transition()
+      .attr("y", (d, i) => yPositionScale(d.order) + 5)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
 
   d3.selectAll("#earthquakes .date")
     .transition()
-    .attr("y", (d, i) => yPositionScale(i) + 25)
+    .attr("y", (d, i) => yPositionScale(d.order) + 25)
     .style("font-size", 10)
     .duration(CONFIG.delays.stackDelay)
     .ease();
 
   d3.selectAll("#earthquakes line.mag")
     .transition()
-    .attr("y1", (d, i) => yPositionScale(i) + 15)
-    .attr("y2", (d, i) => yPositionScale(i) + 15)
+    .attr("y1", (d, i) => yPositionScale(d.order) + 15)
+    .attr("y2", (d, i) => yPositionScale(d.order) + 15)
     .style("font-size", 10)
     .duration(CONFIG.delays.stackDelay)
     .ease();
 
   d3.selectAll("#earthquakes line.deaths")
     .transition()
-    .attr("y1", (d, i) => yPositionScale(i) + 15)
-    .attr("y2", (d, i) => yPositionScale(i) + 15)
+    .attr("y1", (d, i) => yPositionScale(d.order) + 15)
+    .attr("y2", (d, i) => yPositionScale(d.order) + 15)
     .style("font-size", 10)
     .duration(CONFIG.delays.stackDelay)
     .ease();
+
+    d3.selectAll("#earthquakes line.injured")
+      .transition()
+      .attr("y1", (d, i) => yPositionScale(d.order) + 25)
+      .attr("y2", (d, i) => yPositionScale(d.order) + 25)
+      .style("font-size", 10)
+      .duration(CONFIG.delays.stackDelay)
+      .ease();
 }
 
-function foldTimeline() {
-  d3.selectAll("#earthquakes text.mag")
-    .transition()
-    .attr("x", (width / 2))
-    .duration(CONFIG.delays.stackDelay)
-    .ease(d3.easeBackOut);
 
-  d3.selectAll("#earthquakes text.deaths")
-    .transition()
-    .attr("x", (width / 2))
-    .duration(CONFIG.delays.stackDelay)
-    .ease(d3.easeBackOut);
+function sortData(prop, silent) {
+  data = data.sort((a, b) => a[prop] - b[prop]);
 
-  d3.selectAll("#earthquakes text.date")
-    .transition()
-    .duration(CONFIG.delays.stackDelay)
-    .ease(d3.easeBackOut);
+  data.forEach((d,i) => {
+    d.order = i;
+  });
+  mainSVG
+    .selectAll("g")
+    .data(data);
 
-  d3.selectAll("#earthquakes line.mag")
-    .transition()
-    .attr("x2", width / 2)
-    .style("font-size", 10)
-    .duration(CONFIG.delays.stackDelay)
-    .ease(d3.easeBackOut);
-
-  d3.selectAll("#earthquakes line.deaths")
-    .transition()
-    .attr("x2", width / 2)
-    .style("font-size", 10)
-    .duration(CONFIG.delays.stackDelay)
-    .ease(d3.easeBackOut)
-    .on("end", () => hideTimeline());
-
-  d3.selectAll(".timeline")
-    .transition()
-    .attr("y2", 0)
-    .style("font-size", 10)
-    .duration(CONFIG.delays.stackDelay)
-    .ease(d3.easeBackOut);
-  
- 
+  if (!silent) {
+    spreadTimeline();
+  }
 }
-
-function hideTimeline() {
-  d3.selectAll("#earthquakes line")
-    .transition()
-    .attr("opacity", 0)
-    .duration(CONFIG.delays.stackDelay/2)
-    .ease();
-  
-   d3.selectAll("#earthquakes text:not(.label")
-     .transition()
-     .attr("opacity", 0)
-     .duration(CONFIG.delays.stackDelay / 2)
-     .ease();
-  
-  drawOnMap()
-}
-
-function drawOnMap() {
-  d3.selectAll("circle")
-        .transition()
-    .attr("cx", function (d) {
-        return projection([d.longitude, d.latitude])[0] - 100;
-      })
-      .attr("cy", function (d) {
-        return projection([d.longitude, d.latitude])[1] +70;
-      })
-   .duration(CONFIG.delays.stackDelay)
-    .ease();
-  
-   d3.selectAll("text")
-     .transition()
-     .attr("x", function (d) {
-       return projection([d.longitude, d.latitude])[0] - 100;
-     })
-     .attr("y", function (d) {
-       return projection([d.longitude, d.latitude])[1] + 70;
-     })
-     .duration(CONFIG.delays.stackDelay)
-     .ease();
-  
-   d3.selectAll("#map")
-     .transition()
-     .style("opacity", 0.7)
-     .duration(CONFIG.delays.stackDelay*2)
-     .ease();
-  
-  
-}
-

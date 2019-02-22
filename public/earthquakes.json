@@ -1,5 +1,5 @@
 [{
-  "datetime": "40850",
+  "datetime": "03/11/2011",
   "country": "Japan",
   "latitude": 38.297,
   "longitude": 142.373,
@@ -10,7 +10,10 @@
   "rms": 1.16,
   "source": "NEI",
   "eventid": 2011031120,
-  "location": "POINT(142.372999999999000 38.296999999999900)"
+  "location": "POINT(142.372999999999000 38.296999999999900)",
+  "deaths": 15896,
+  "injured": 6157,
+"missing": 2537
 }, {
   "datetime": "12/26/2004",
   "country": "Indonesia",
@@ -23,7 +26,10 @@
   "rms": 1.17,
   "source": "NEI",
   "eventid": 2004122640,
-  "location": "POINT(95.981999999999900 3.295000000000000)"
+  "location": "POINT(95.981999999999900 3.295000000000000)",
+   "deaths": 184167,
+   "injured": 125000,
+   "missing": 43786
 }, {
   "datetime": "2/27/2010",
   "country": "Chile",
@@ -36,7 +42,10 @@
   "rms": 1.09,
   "source": "NEI",
   "eventid": 2010022740,
-  "location": "POINT(-72.897999999999900 -36.122000000000000)"
+  "location": "POINT(-72.897999999999900 -36.122000000000000)",
+    "deaths": 78,
+    "injured": 11,
+    "missing": 2
 }, {
   "datetime": "3/28/2005",
   "country": "Indonesia",
@@ -49,7 +58,10 @@
   "rms": 0.91,
   "source": "NEI",
   "eventid": 2005032840,
-  "location": "POINT(97.108000000000000 2.085000000000000)"
+  "location": "POINT(97.108000000000000 2.085000000000000)",
+  "deaths": 1314,
+  "injured": 1146,
+  "missing": 0
 }, {
   "datetime": "6/23/2001",
   "country": "Peru",
@@ -62,7 +74,10 @@
   "rms": 1.05,
   "source": "NEI",
   "eventid": 2001062340,
-  "location": "POINT(-73.641000000000000 -16.265000000000000)"
+  "location": "POINT(-73.641000000000000 -16.265000000000000)",
+    "deaths": 145,
+    "injured": 2713,
+    "missing": 64
 }, {
   "datetime": "9/25/2003",
   "country": "Japan",
@@ -75,7 +90,10 @@
   "rms": 0.88,
   "source": "NEI",
   "eventid": 2003092540,
-  "location": "POINT(143.910000000000000 41.814999999999900)"
+  "location": "POINT(143.910000000000000 41.814999999999900)",
+     "deaths": 0,
+     "injured": 849,
+     "missing": 0
 }, {
   "datetime": "11/15/2006",
   "country": "Russia",
@@ -88,9 +106,12 @@
   "rms": 1.07,
   "source": "NEI",
   "eventid": 2006111540,
-  "location": "POINT(153.265999999999000 46.591999999999900)"
+  "location": "POINT(153.265999999999000 46.591999999999900)",
+   "deaths": 1,
+   "injured": 0,
+   "missing": 0
 }, {
-  "datetime": "34583",
+  "datetime": "09/06/1994",
   "country": "Bolivia",
   "latitude": -13.841,
   "longitude": -67.553,
@@ -101,7 +122,10 @@
   "rms": 1.13,
   "source": "NEI",
   "eventid": 1994060940,
-  "location": "POINT(-67.552999999999900 -13.840999999999900)"
+  "location": "POINT(-67.552999999999900 -13.840999999999900)",
+      "deaths": 0,
+      "injured": 0,
+      "missing": 0
 }, {
   "datetime": "2/17/1996",
   "country": "Indonesia",
@@ -114,18 +138,24 @@
   "rms": 1.33,
   "source": "NEI",
   "eventid": 1996021740,
-  "location": "POINT(136.952000000000000 -0.891000000000000)"
+  "location": "POINT(136.952000000000000 -0.891000000000000)",
+   "deaths": 166,
+   "injured": 423,
+   "missing": 5090
 }, {
-  "datetime": "26207",
-  "country": "Indonesia",
-  "latitude": -3.132,
-  "longitude": 139.697,
-  "depth": 33,
+  "datetime": "9/19/1985",
+  "country": "Mexico",
+  "latitude": 18.19,
+  "longitude": -102.533,
+  "depth": 27.9,
   "magnitude": 8.1,
   "magtype": "Ms",
-  "nbstations": 113,
-  "rms": 0,
+  "nbstations": 311,
+  "rms": 1.25,
   "source": "NEI",
-  "eventid": 1971011040,
-  "location": "POINT(139.697000000000000 -3.132000000000000)"
+  "eventid": 1985091940,
+  "location": "POINT(-102.533000000000000 18.190000000000000)",
+     "deaths": 45000,
+     "injured": 9000,
+     "missing": 0
 }]

@@ -14,7 +14,8 @@ const CONFIG = {
     "pinkish": "#F28C81",
     "green": "#8AC6BF",
     "teal": "#7C96A8",
-    "dark-blue": "#01395C"
+    "dark-blue": "#01395C",
+    "red": "#DB1C55"
   },
 
   delays: {
@@ -40,13 +41,14 @@ window.onload = () => {
   // Main Viz
   d3.select("#main")
     .style("max-width", `${CONFIG.mainSVGwidth}px`)
-    .style("margin", "0 auto")
+    .style("margin", "-10px auto 0px auto")
     .append("svg")
     .attr("id", "mainSVG")
     .attr("width", width + CONFIG.margin.left + CONFIG.margin.right)
     .attr("height", height + CONFIG.margin.top + CONFIG.margin.bottom)
 
   mainSVG = d3.select("#mainSVG");
+
 
   console.log("==> Initialized");
   parseData(drawLine);
@@ -84,7 +86,7 @@ function configureScales() {
 
   yPositionScale = d3.scaleLinear()
     .domain([0, data.length])
-    .range([CONFIG.margin.top, height / 6 * 5]);
+    .range([0, height / 6 * 5]);
 
 
   xMagScale = d3.scalePow()

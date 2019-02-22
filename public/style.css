@@ -3,6 +3,7 @@
   --pinkish: #F28C81;
   --green: #8AC6BF;
   --teal: #7C96A8;
+  --teal-dark: rgb(50, 87, 114);
   --dark-blue: #01395C;
 }
 
@@ -11,6 +12,7 @@ body {
   background-color: var(--main);
   font-family: 'Oswald',
     sans-serif;
+    overflow: hidden;
 }
 
 *[hidden^=true] {
@@ -63,18 +65,60 @@ button {
   font-family: 'Oswald',
     sans-serif;
   background: none;
+  font-size: 20px;
+
   border: none;
-  font-size: 25px;
   cursor: pointer;
   outline: none;
   color: var(--teal);
 }
 
+button.active {
+  color: var(--teal-dark);
+}
+
+#earthquakes g {
+  cursor: pointer;
+}
+
 #tooltip {
   position: absolute;
-  top: 50vh;
-  left: 50vw;
-  width: 100;
-  height: 100;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 100vh;
   background: white;
+  transition: all 0.7s;
+  background: var(--main);
+  border-left: 2px solid var(--dark-blue);
+padding: 10px;
+}
+
+#tooltip.hidden {
+transition: all 0.7s;
+  right: -270px;
+}
+
+#tooltip h1 {
+  color: var(--teal-dark);
+  font-size: 17px;
+}
+
+#tooltip p {
+  color: var(--dark-blue);
+  font-size: 14px;
+}
+
+.control-group {
+  position: absolute;
+  top: 0;
+  left:0;
+  width:80px;
+  text-align: left;
+}
+.control-group h2 {
+  margin-left: 5px;
+  margin-bottom: 0px;
+  font-size: 20px;
+  color: var(--dark-blue);
 }

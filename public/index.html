@@ -5,7 +5,8 @@
   <title>Earthquakes | D3</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="Keywords" content="hatem, hassan, hatem hassan, hatem abdelmowgoud hassan, hatem hassan, data visualization, d3, earthquakes">
+  <meta name="Keywords"
+    content="hatem, hassan, hatem hassan, hatem abdelmowgoud hassan, hatem hassan, data visualization, d3, earthquakes">
   <meta name="Description" content="Earthquakes | D3">
   <meta name="author" content="Hatem AbdelMowgoud Hassan">
 
@@ -32,17 +33,28 @@
 </head>
 
 <body>
-  <button class="control" onclick="prev()">☝️Prev</button>
-  <button class="control" onclick="next()">Next 👇</button>
-  <button class="hide" onclick="sortData('deaths')">Deaths</button>
-  <button class="hide" onclick="sortData('injured')">Injured</button>
-  <button class="hide" onclick="sortData('jsDate')">Date</button>
-  <button class="hide" onclick="sortData('magnitude')">Magnitude</button>
+  <div class="control-group">
+    <button class="control hide" onclick="prev()">☝️Prev</button>
+    <button class="control hide" onclick="next()">Next 👇</button>
+    <h2 class="hide">Sort By:</h2>
+    <button class="hide deaths" onclick="sortData('deaths')">Deaths</button>
+    <button class="hide injured" onclick="sortData('injured')">Injured</button>
+    <button class="hide jsDate" onclick="sortData('jsDate')">Date</button>
+    <button class="hide magnitude" onclick="sortData('magnitude')">Magnitude</button>
+  </div>
 
   <div id="main"></div>
 
-  <div id="tooltip" class="hide">
-    Test
+  <div id="tooltip" class="hidden">
+    <h1>Title</h1>
+    <img width="100%" src="https://www.rabata.org/wp-content/uploads/2018/05/dummy.png">
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
+      aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+      occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+    <a href="#" target="_blank">Read More</a>
   </div>
 
   <!-- JavaScript -->

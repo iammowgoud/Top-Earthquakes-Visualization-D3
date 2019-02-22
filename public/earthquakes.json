@@ -11,9 +11,13 @@
   "source": "NEI",
   "eventid": 2011031120,
   "location": "POINT(142.372999999999000 38.296999999999900)",
-  "deaths": 15896,
-  "injured": 6157,
-"missing": 2537
+  "deaths": 18453,
+  "injured": 6152,
+  "missing": 2537,
+  "img": "https://www.wired.com/images_blogs/wiredscience/2011/03/japan-earthquake-intensity-epicenter-usgs.jpg",
+  "title": "JAPAN QUAKE EPICENTER WAS IN UNEXPECTED LOCATION",
+  "text": "Japan has been expecting and preparing for the “big one” for more than 30 years. But the magnitude-9.0 temblor that struck March 11 – the world’s fourth biggest quake since 1900 – wasn’t the catastrophe the island nation had in mind. The epicenter of the quake was about 80 miles east of the city of Sendai, in a strip of ocean crust previously thought unlikely to be capable of unleashing such energy...",
+  "link": "https://www.wired.com/2011/03/japan-earthquake-surpise/"
 }, {
   "datetime": "12/26/2004",
   "country": "Indonesia",
@@ -27,9 +31,13 @@
   "source": "NEI",
   "eventid": 2004122640,
   "location": "POINT(95.981999999999900 3.295000000000000)",
-   "deaths": 184167,
-   "injured": 125000,
-   "missing": 43786
+  "deaths": 227899,
+  "injured": 125000,
+  "missing": 43786,
+ "img": "https://www.abc.net.au/cm/lb/5979690/data/anatomy-of-a-tsunami-data.jpg",
+ "title": "Boxing Day tsunami: How the disaster unfolded 10 years ago",
+ "text": "The Boxing Day tsunami in 2004 is believed to be the deadliest tsunami in history, killing more than 230,000 people across 14 countries.  It began at 7: 59 am local time on December 26, 2004, when a 9.1 - magnitude quake struck off the northern tip of Sumatra in Indonesia....",
+ "link": "https://www.abc.net.au/news/2014-12-24/boxing-day-tsunami-how-the-disaster-unfolded/5977568"
 }, {
   "datetime": "2/27/2010",
   "country": "Chile",
@@ -43,9 +51,13 @@
   "source": "NEI",
   "eventid": 2010022740,
   "location": "POINT(-72.897999999999900 -36.122000000000000)",
-    "deaths": 78,
-    "injured": 11,
-    "missing": 2
+  "deaths": 558,
+  "injured": 12000,
+  "missing": 2,
+  "img": "https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2010/2/27/1267268212671/Chart-of-the-Chile-tsunam-001.jpg?width=620&quality=45&auto=format&fit=max&dpr=2&s=e4026ee0c31aaea64cedb13217845dd0",
+  "title": "Deadly earthquake hits central Chile",
+  "text": "A massive earthquake with a magnitude of 8.8 has struck central Chile, killing at least 85 people and triggering a tsunami.  The tremor shook the capital, Santiago,  for a minute and a half early this morning, bringing down telephone and power lines.The Chilean president, Michelle Bachelet, said there were more than 85 deaths just in the Maule region at the quake 's epicentre, and that more were possible...",
+  "link": "https://www.theguardian.com/world/2010/feb/27/chile-earthquake-tsunami"
 }, {
   "datetime": "3/28/2005",
   "country": "Indonesia",
@@ -59,9 +71,13 @@
   "source": "NEI",
   "eventid": 2005032840,
   "location": "POINT(97.108000000000000 2.085000000000000)",
-  "deaths": 1314,
-  "injured": 1146,
-  "missing": 0
+  "deaths": 1313,
+  "injured": 340,
+  "missing": 0,
+  "img": "https://nationalpostcom.files.wordpress.com/2012/04/indonesia-earthquake.jpg",
+  "title": "Historic quake off Indonesia causes panic, but no huge tsunami",
+  "text": "A powerful 8.6 magnitude earthquake and a series of strong aftershocks struck off Indonesia on Wednesday, sending people scurrying from buildings as far away as southern India, but there seemed little risk of a disastrous tsunami as in 2004...",
+  "link": "https://nationalpost.com/news/historic-quakes-off-indonesia-cause-panic-but-no-huge-tsunami"
 }, {
   "datetime": "6/23/2001",
   "country": "Peru",
@@ -75,9 +91,13 @@
   "source": "NEI",
   "eventid": 2001062340,
   "location": "POINT(-73.641000000000000 -16.265000000000000)",
-    "deaths": 145,
-    "injured": 2713,
-    "missing": 64
+  "deaths": 145,
+  "injured": 2713,
+  "missing": 64,
+  "img": "http://www.drgeorgepc.com/tsu2001PeruDamage.jpg",
+  "title": "Oxfam response to Peru earthquake situation report 27 Jun 2001",
+  "text": "Rescue operations, in the wake of the massive earthquake which struck southwest Peru at around 3:30 local time on Saturday June 23, are being hampered by a number of large aftershocks. An aftershock measuring 5.7 on the Richter scale was felt late on Monday and seismologists have warned that more may follow.  A massive tidal wave, triggered by the earthquake, is reported have claimed the lives of 39 people on Peru 's southwest coast, near Camana. Over 50 people remain missing in the area, meaning that the death toll is likely to rise...",
+  "link": "https://reliefweb.int/report/peru/oxfam-response-peru-earthquake-situation-report-27-jun-2001"
 }, {
   "datetime": "9/25/2003",
   "country": "Japan",
@@ -91,9 +111,13 @@
   "source": "NEI",
   "eventid": 2003092540,
   "location": "POINT(143.910000000000000 41.814999999999900)",
-     "deaths": 0,
-     "injured": 849,
-     "missing": 0
+  "deaths": 0,
+  "injured": 755,
+  "missing": 0,
+  "img": "http://newsimg.bbc.co.uk/media/images/39381000/jpg/_39381692_fire203ap.jpg",
+  "title": "Strong quake hits north Japan",
+  "text": "A strong earthquake has struck the northern Japanese island of Hokkaido injuring more than 300 people...",
+  "link": "http://news.bbc.co.uk/2/hi/asia-pacific/3141074.stm"
 }, {
   "datetime": "11/15/2006",
   "country": "Russia",
@@ -107,9 +131,13 @@
   "source": "NEI",
   "eventid": 2006111540,
   "location": "POINT(153.265999999999000 46.591999999999900)",
-   "deaths": 1,
-   "injured": 0,
-   "missing": 0
+  "deaths": 1,
+  "injured": 0,
+  "missing": 0,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Relief_Map_of_Far_Eastern_Federal_District.jpg",
+  "title": "2006 Kuril Islands earthquake",
+  "text": "The 2006 Kuril Islands earthquake occurred on November 15 at 8:14:16 pm JST with a M magnitude of 8.3 and a maximum Mercalli intensity of IV (Light). This megathrust earthquake was the largest event in the central Kuril Islands since 1915 and generated a small tsunami that affected the northern Japanese coast. The tsunami crossed the Pacific Ocean and damaged the harbor at Crescent City, California. Post-tsunami surveys indicate that the local tsunami in the central Kuril Islands reached runup of 15 metres (49 ft) or more....",
+  "link": "https://www.revolvy.com/page/2006-Kuril-Islands-earthquake"
 }, {
   "datetime": "09/06/1994",
   "country": "Bolivia",
@@ -123,9 +151,13 @@
   "source": "NEI",
   "eventid": 1994060940,
   "location": "POINT(-67.552999999999900 -13.840999999999900)",
-      "deaths": 0,
-      "injured": 0,
-      "missing": 0
+  "deaths": 5,
+  "injured": 0,
+  "missing": 0,
+  "img": "https://www.sciencealert.com/images/2019-02/processed/bolivia_earthquake_1994_cover_1024.jpg",
+  "title": "Huge Earthquake in Bolivia Has Revealed Vast Mountain Ranges Below Earth's Surface",
+  "text": "Classic sci-fi writer Jules Verne once imagined a whole subterranean landscape deep inside the planet, complete with lost prehistoric species and plant life. The book was aptly titled Journey to the Centre of the Earth...",
+  "link": "https://www.sciencealert.com/a-huge-earthquake-in-bolivia-revealed-mountains-hundreds-of-kilometres-under-the-surface"
 }, {
   "datetime": "2/17/1996",
   "country": "Indonesia",
@@ -139,7 +171,11 @@
   "source": "NEI",
   "eventid": 1996021740,
   "location": "POINT(136.952000000000000 -0.891000000000000)",
-   "deaths": 166,
-   "injured": 423,
-   "missing": 5090
+  "deaths": 164,
+  "injured": 423,
+  "missing": 5090,
+  "img": "https://factsofindonesia.com/wp-content/uploads/2017/02/gempa-bumi-mentawai-2010-300x187.jpg",
+  "title": "Earthquake rattles Indonesia's West Papua province, prompts brief tsunami warning",
+  "text": "The waters off of Indonesia were rocked by a 7.6-magnitude earthquake at 4:43 a.m. local time Sunday, the US Geological Survey reports. The quake's epicenter was about 150 km (95 miles) off the coast of Manokwari, in the West Papua province, and 170 km (105 miles) from the city of Sorong. It was followed by at least two aftershocks, one measuring 7.5 on the Richter scale...",
+  "link": "https://blogs.scientificamerican.com/news-blog/earthquake-rattles-indonesias-west-2009-01-03/"
 }]

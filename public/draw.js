@@ -5,7 +5,7 @@ function drawLine() {
   // draw vertical timeline
   mainSVG
     .append("line")
-    .attr("transform", "translate(" + CONFIG.margin.left + "," + CONFIG.margin.top + ")")
+    .attr("transform", "translate(" + CONFIG.margin.left + ",0)")
     .classed("timeline", true)
 
     .attr("stroke", CONFIG.colors["dark-blue"])
@@ -17,7 +17,7 @@ function drawLine() {
     .attr("y2", 0)
 
     .transition()
-    .attr("y2", height)
+    .attr("y2", CONFIG.mainSVGheight)
     .duration(CONFIG.delays.timelineDelay)
     .ease(d3.easeBackOut)
     .on("end", () => {
@@ -43,18 +43,29 @@ function addEarthquakes() {
     .append("g")
     .attr("id", (d) => "e" + d.eventid)
     .classed("hide", true)
-    .on("mouseenter", (d) => {
-      if (showTooltip) {
-        d3.select("#tooltip")
-          .classed("hide", false)
-          .text(d.country + " NEWS")
-      }
-    })
-    .on("mouseleave", (d) => {
-      d3.select("#tooltip")
-        .classed("hide", true)
-    });
+    .on("click", (d) => {
+      if (true) {
 
+        let hidden = d3.select("#tooltip")
+          .classed("hidden");
+        if (hidden) {
+          d3.select("#tooltip")
+            .classed("hidden", false);
+          d3.select("#tooltip h1")
+            .text(d.title);
+          d3.select("#tooltip p")
+            .text(d.text);
+          d3.select("#tooltip a")
+            .attr("href", d.link);
+          d3.select("#tooltip img")
+            .attr("src", d.img);
+        } else {
+          d3.select("#tooltip")
+            .classed("hidden", true);
+        }
+      }
+    });
+  
   // Add circles
   earthquakes
     .append("circle")
@@ -119,7 +130,7 @@ function addEarthquakes() {
     .attr("x", (width / 2) - 80)
     .style("text-anchor", "left")
     .attr("font-size", 14)
-    .attr("fill", CONFIG.colors["pinkish"])
+    .attr("fill", CONFIG.colors["red"])
     .text((d) => d.deaths + " deaths");
 
   // Add Deaths line
@@ -130,7 +141,7 @@ function addEarthquakes() {
     .attr("x1", (width / 2) - 40)
     .attr("y2", (height / 4 * 3) + 25)
     .attr("x2", (width / 2) - 40)
-    .attr("stroke", CONFIG.colors["pinkish"])
+    .attr("stroke", CONFIG.colors["red"])
     .attr("stroke-width", 5)
 
   // Add Injured
@@ -142,7 +153,7 @@ function addEarthquakes() {
     .attr("x", (width / 2) - 80)
     .style("text-anchor", "left")
     .attr("font-size", 14)
-    .attr("fill", CONFIG.colors["teal"])
+    .attr("fill", CONFIG.colors["dark-blue"])
     .text((d) => d.injured + " injured");
 
   // Add Injured line
@@ -153,7 +164,7 @@ function addEarthquakes() {
     .attr("x1", (width / 2) - 40)
     .attr("y2", (height / 4 * 3) + 35)
     .attr("x2", (width / 2) - 40)
-    .attr("stroke", CONFIG.colors["teal"])
+    .attr("stroke", CONFIG.colors["dark-blue"])
     .attr("stroke-width", 5)
 
 }
@@ -221,7 +232,7 @@ function stackEarthquake(i) {
     d3.select("#e" + data[i].eventid + " circle")
       .transition()
       .attr("cy", yPositionScale(i) + 15)
-      .attr("r", 30)
+      .attr("r", 27)
       .duration(CONFIG.delays.stackDelay)
       .ease();
 
@@ -281,9 +292,11 @@ function stackEarthquake(i) {
     if (i === data.length - 1) {
       spreadTimeline();
       d3.selectAll("button.hide")
-        .classed("hide", false)
+        .classed("hide", false);
+      d3.selectAll(".control-group h2.hide")
+        .classed("hide", false);
       d3.selectAll("button.control")
-        .classed("hide", true)
+        .classed("hide", true);
     }
   }
 
@@ -423,4 +436,10 @@ function sortData(prop, silent) {
   if (!silent) {
     spreadTimeline();
   }
+
+
+  d3.selectAll(".control-group button")
+    .classed("active", false);
+  d3.selectAll(".control-group button."+prop)
+    .classed("active", true);
 }
